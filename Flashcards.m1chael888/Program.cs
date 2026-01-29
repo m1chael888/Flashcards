@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Flashcards.m1chael888.Infrastructure;
 
 namespace Flashcards.m1chael888
 {
@@ -15,9 +16,16 @@ namespace Flashcards.m1chael888
                 .Build();
             var connectionString = builder.GetConnectionString("source");
 
-            var serviceCollection = new ServiceCollection();
+            var collection = new ServiceCollection();
 
-            serviceCollection.Add
+            collection.AddScoped<IDbInitializer>(x => new DbInitializer(connectionString));
+
+            var provider = collection.BuildServiceProvider();
+
+            var initializer = provider.GetRequiredService<IDbInitializer>();
+            initializer.Initialize();
+
+            //start app
         }
     }
 }
