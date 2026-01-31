@@ -18,13 +18,20 @@ namespace Flashcards.m1chael888.Controllers
 
         public void HandleMainMenuOption()
         {
+            Console.Clear();
             var choice = CallMainMenu();
 
             switch (choice)
             {
-                case MainMenuOption.Temp:
+                case MainMenuOption.Study:
                     Console.WriteLine("under construction");
                     Console.ReadKey();
+                    HandleMainMenuOption();
+                    break;
+                case MainMenuOption.Manage:
+                    Console.WriteLine("under construction");
+                    Console.ReadKey();
+                    HandleMainMenuOption();
                     break;
                 case MainMenuOption.Exit:
                     Environment.Exit(0);
@@ -37,7 +44,5 @@ namespace Flashcards.m1chael888.Controllers
             var choice = _mainMenuView.Call();
             return choice;
         }
-
-
     }
 }

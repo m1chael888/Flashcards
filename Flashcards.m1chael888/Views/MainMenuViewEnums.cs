@@ -4,7 +4,8 @@
     {
         public enum MainMenuOption
         {
-            Temp,
+            Study,
+            Manage,
             Exit
         }
     }
