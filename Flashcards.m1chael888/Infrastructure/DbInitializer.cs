@@ -26,7 +26,7 @@ namespace Flashcards.m1chael888.Infrastructure
                             );
                         END
 
-                        IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Flashcards')
+                        IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Cards')
                         BEGIN
                             CREATE TABLE Cards (
                                 CardId INTEGER IDENTITY(1,1) PRIMARY KEY,
@@ -39,10 +39,7 @@ namespace Flashcards.m1chael888.Infrastructure
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Execute(sql);
-
             }
-
-            Console.ReadKey();
         }
     }
 }

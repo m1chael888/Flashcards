@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Flashcards.m1chael888.Infrastructure;
+using Flashcards.m1chael888.Controllers;
+using Flashcards.m1chael888.Views;
 
 namespace Flashcards.m1chael888
 {
@@ -19,13 +21,16 @@ namespace Flashcards.m1chael888
             var collection = new ServiceCollection();
 
             collection.AddScoped<IDbInitializer>(x => new DbInitializer(connectionString));
+            collection.AddScoped<IFlashcardsController, FlashcardsController>();
+            collection.AddScoped<IMainMenuView, MainMenuView>();
 
             var provider = collection.BuildServiceProvider();
 
             var initializer = provider.GetRequiredService<IDbInitializer>();
             initializer.Initialize();
 
-            //start app
+            var controller = provider.GetRequiredService<IFlashcardsController>();
+            controller.HandleMainMenuOption();
         }
     } 
 }
