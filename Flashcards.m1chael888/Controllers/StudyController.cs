@@ -19,8 +19,7 @@ namespace Flashcards.m1chael888.Controllers
             switch (choice)
             {
                 case StudyMenuOption.ChooseStack:
-
-                    HandleStudyMenu();
+                    
                     break;
                 case StudyMenuOption.Back:
                     break;

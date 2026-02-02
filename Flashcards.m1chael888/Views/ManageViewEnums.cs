@@ -13,8 +13,8 @@
 
         public enum ViewStacksOption
         {
-            ViewCards,
-            Back
+            Back,
+            ViewCards
         }
     }
 }

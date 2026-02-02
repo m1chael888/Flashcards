@@ -7,7 +7,7 @@ namespace Flashcards.m1chael888.Views
     public interface IManageView
     {
         ManageMenuOption ShowMenu();
-        string GetNewStack(string msg);
+        string GetStackName(string msg);
         ViewStacksOption DisplayStackList(List<StackModel> stacks); 
         StackModel DisplayStackPrompt(List<StackModel> stacks, string title);
     }
@@ -25,7 +25,7 @@ namespace Flashcards.m1chael888.Views
             return choice;
         }
 
-        public string GetNewStack(string msg)
+        public string GetStackName(string msg)
         {
             AnsiConsole.MarkupLine($"[lime]{msg}[/]\n");
             var input = AnsiConsole.Ask<string>("[lime]What would you like to call your stack??[/]");
