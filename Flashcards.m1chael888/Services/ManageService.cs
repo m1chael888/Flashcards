@@ -1,10 +1,15 @@
 ﻿using Flashcards.m1chael888.Repositories;
+using Flashcards.m1chael888.Models;
 
 namespace Flashcards.m1chael888.Services
 {
     public interface IManageService
     {
-        void CallStackCreate(string stackName);
+        void StackCreate(string stackName);
+        List<StackModel> StacksRead();
+        void StackUpdate(StackModel stack);
+        void StackDelete(StackModel stack);
+
     }
     public class ManageService : IManageService
     {
@@ -14,24 +19,24 @@ namespace Flashcards.m1chael888.Services
             _stackRepository = stackRepository;
         }
 
-        public void CallStackCreate(string stackName)
+        public void StackCreate(string stackName)
         {
             _stackRepository.Create(stackName);
         }
 
-        public void CallStackRead()
+        public List<StackModel> StacksRead()
         {
-
+            return _stackRepository.Read();
         }
 
-        public void CallStackUpdate()
+        public void StackUpdate(StackModel stack)
         {
-
+            _stackRepository.Update(stack);
         }
 
-        public void CallStackDelete()
+        public void StackDelete(StackModel stack)
         {
-
+            _stackRepository.Delete(stack.StackId);
         }
     }
 }

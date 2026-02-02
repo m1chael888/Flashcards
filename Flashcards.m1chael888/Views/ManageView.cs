@@ -1,12 +1,15 @@
 ﻿using Spectre.Console;
 using static Flashcards.m1chael888.Views.ManageViewEnums;
+using Flashcards.m1chael888.Models;
 
 namespace Flashcards.m1chael888.Views
 {
     public interface IManageView
     {
         ManageMenuOption ShowMenu();
-        string GetNewStack();
+        string GetNewStack(string msg);
+        ViewStacksOption DisplayStackList(List<StackModel> stacks); 
+        StackModel DisplayStackPrompt(List<StackModel> stacks, string title);
     }
     public class ManageView : IManageView
     {
@@ -22,11 +25,41 @@ namespace Flashcards.m1chael888.Views
             return choice;
         }
 
-        public string GetNewStack()
+        public string GetNewStack(string msg)
         {
-            AnsiConsole.MarkupLine("[lime]Creating a stack::[/]\n");
-            var input = AnsiConsole.Ask<string>("[lime]What would you like to call your new stack??[/]");
+            AnsiConsole.MarkupLine($"[lime]{msg}[/]\n");
+            var input = AnsiConsole.Ask<string>("[lime]What would you like to call your stack??[/]");
             return input;
+        }
+
+        public ViewStacksOption DisplayStackList(List<StackModel> stacks)
+        {
+            AnsiConsole.MarkupLine("[lime]View Stacks::[/]\n");
+            foreach (StackModel stack in stacks)
+            {
+                AnsiConsole.MarkupLine($"{stack.StackId}\t{stack.Name}");
+            }
+
+            var choice = AnsiConsole.Prompt(
+                            new SelectionPrompt<ViewStacksOption>()
+                            .Title("")
+                            .AddChoices(Enum.GetValues<ViewStacksOption>())
+                            .HighlightStyle("lime")
+                            .WrapAround()
+                            );
+            return choice;
+        }
+
+        public StackModel DisplayStackPrompt(List<StackModel> stacks, string title)
+        {
+            var choice = AnsiConsole.Prompt(
+                            new SelectionPrompt<StackModel>().Title($"[lime]{title}[/]")
+                            .UseConverter(x => $"{x.StackId}\t{x.Name}")
+                            .HighlightStyle("lime")
+                            .WrapAround()
+                            .AddChoices(stacks)
+                            );
+            return choice;
         }
     }
 }

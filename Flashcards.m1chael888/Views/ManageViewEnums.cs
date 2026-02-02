@@ -10,5 +10,11 @@
             DeleteStack,
             Back
         }
+
+        public enum ViewStacksOption
+        {
+            ViewCards,
+            Back
+        }
     }
 }

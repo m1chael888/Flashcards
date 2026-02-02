@@ -2,6 +2,7 @@
 using Flashcards.m1chael888.Views;
 using Spectre.Console;
 using Flashcards.m1chael888.Services;
+using Flashcards.m1chael888.Models;
 
 namespace Flashcards.m1chael888.Controllers
 {
@@ -22,19 +23,16 @@ namespace Flashcards.m1chael888.Controllers
             switch (choice)
             {
                 case ManageMenuOption.CreateStack:
-                    CallCreateStack();
+                    CallStackCreate();
                     break;
                 case ManageMenuOption.ViewStacks:
-
-                    HandleManageMenu();
+                    CallStacksRead();
                     break;
                 case ManageMenuOption.UpdateStack:
-
-                    HandleManageMenu();
+                    CallStackUpdate();
                     break;
                 case ManageMenuOption.DeleteStack:
-
-                    HandleManageMenu();
+                    CallStackDelete();
                     break;
                 case ManageMenuOption.Back:
                     break;
@@ -47,18 +45,73 @@ namespace Flashcards.m1chael888.Controllers
             return choice;
         }
 
-        private void CallCreateStack()
+        private void CallStackCreate()
         {
-            string stackName = _manageView.GetNewStack();
-            _manageService.CallStackCreate(stackName);
+            string stackName = GetStackName("Create stack::");
+            _manageService.StackCreate(stackName);
 
-            ReturnWithMsg("Stack saved successfully");
+            ReturnToMenuWithMsg("Stack saved successfully");
         }
 
-        private void ReturnWithMsg(string msg = "")
+        private void CallStacksRead()
+        {
+            var stacks = GetStackList();
+            var choice = _manageView.DisplayStackList(stacks);
+            
+            switch (choice)
+            {
+                case ViewStacksOption.ViewCards:
+                    CallCardsRead();
+                    break;
+                case ViewStacksOption.Back:
+                    break;
+            }
+        }
+
+        private void CallCardsRead()
+        {
+            Console.Clear();
+            var stacks = GetStackList();
+            _manageView.DisplayStackPrompt(stacks, "Choose which stack's cards youd like to view::");
+            // show cards
+        }
+
+        private void CallStackUpdate()
+        {
+            var stacks = GetStackList();
+            var choice = _manageView.DisplayStackPrompt(stacks, "Choose a stack of cards to update::");
+            choice.Name = GetStackName("Update stack::");
+
+            _manageService.StackUpdate(choice);
+
+            ReturnToMenuWithMsg("Stack updated successfully");
+        }
+
+        private void CallStackDelete()
+        {
+            var stacks = GetStackList();
+            var choice = _manageView.DisplayStackPrompt(stacks, "Choose a stack of cards to delete::");
+            _manageService.StackDelete(choice);
+
+            ReturnToMenuWithMsg("Stack deleted successfully");
+        }
+
+        private List<StackModel> GetStackList()
+        {
+            var stacks = _manageService.StacksRead();
+            return stacks;
+        }
+
+        private string GetStackName(string msg)
+        {
+            string stackName = _manageView.GetNewStack(msg);
+            return stackName;
+        }
+
+        private void ReturnToMenuWithMsg(string msg)
         {
             Console.Clear();    
-            if (msg != "") AnsiConsole.MarkupLine($"[lime]{msg}[/]");
+            AnsiConsole.MarkupLine($"[lime]{msg}[/]");
 
             AnsiConsole.Status()
                 .Spinner(Spinner.Known.Point)
