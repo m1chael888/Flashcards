@@ -4,7 +4,10 @@
     {
         public enum ManageMenuOption
         {
-            Temp,
+            CreateStack,
+            ViewStacks,
+            UpdateStack,
+            DeleteStack,
             Back
         }
     }

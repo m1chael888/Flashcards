@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Flashcards.m1chael888.Infrastructure;
 using Flashcards.m1chael888.Controllers;
 using Flashcards.m1chael888.Views;
+using Flashcards.m1chael888.Services;
+using Flashcards.m1chael888.Repositories;
 
 namespace Flashcards.m1chael888
 {
@@ -25,6 +27,10 @@ namespace Flashcards.m1chael888
             collection.AddScoped<IMainMenuView, MainMenuView>();
             collection.AddScoped<IStudyView, StudyView>();
             collection.AddScoped<IManageView, ManageView>();
+            collection.AddScoped<IStackService, StackService>();
+            collection.AddScoped<IStackRepository, StackRepository>();
+            collection.AddScoped<ICardService, CardService>();
+            collection.AddScoped<ICardRepository, CardRepository>();
 
             var provider = collection.BuildServiceProvider();
 

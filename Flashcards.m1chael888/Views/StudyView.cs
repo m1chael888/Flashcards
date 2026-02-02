@@ -5,11 +5,11 @@ namespace Flashcards.m1chael888.Views
 {
     public interface IStudyView
     {
-        StudyMenuOption CallMenu();
+        StudyMenuOption ShowMenu();
     }
     public class StudyView : IStudyView
     {
-        public StudyMenuOption CallMenu()
+        public StudyMenuOption ShowMenu()
         {
             var choice = AnsiConsole.Prompt(
                 new SelectionPrompt<StudyMenuOption>()

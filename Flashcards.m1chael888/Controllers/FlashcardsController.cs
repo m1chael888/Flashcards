@@ -43,11 +43,12 @@ namespace Flashcards.m1chael888.Controllers
 
         private void HandleStudyMenu()
         {
+            Console.Clear();
             var choice = CallStudyMenu();
 
             switch (choice)
             {
-                case StudyMenuOption.Temp:
+                case StudyMenuOption.ChooseStack:
 
                     HandleStudyMenu();
                     break;
@@ -59,11 +60,24 @@ namespace Flashcards.m1chael888.Controllers
 
         private void HandleManageMenu()
         {
+            Console.Clear();
             var choice = CallManageMenu();
 
             switch (choice)
             {
-                case ManageMenuOption.Temp:
+                case ManageMenuOption.CreateStack:
+                    CallCreateStack();
+                    HandleManageMenu();
+                    break;
+                case ManageMenuOption.ViewStacks:
+
+                    HandleManageMenu();
+                    break;
+                case ManageMenuOption.UpdateStack:
+
+                    HandleManageMenu();
+                    break;
+                case ManageMenuOption.DeleteStack:
 
                     HandleManageMenu();
                     break;
@@ -73,23 +87,27 @@ namespace Flashcards.m1chael888.Controllers
             }
         }
 
-        ///
+        private void CallCreateStack()
+        {
+            string stackName = _manageView.GetNewStack();
+
+        }
 
         private StudyMenuOption CallStudyMenu()
         {
-            var choice = _studyView.CallMenu();
+            var choice = _studyView.ShowMenu();
             return choice;
         }
 
         private ManageMenuOption CallManageMenu()
         {
-            var choice = _manageView.CallMenu();
+            var choice = _manageView.ShowMenu();
             return choice;
         }
 
         private MainMenuOption CallMainMenu()
         {
-            var choice = _mainMenuView.Call();
+            var choice = _mainMenuView.ShowMenu();
             return choice;
         }
 
