@@ -1,6 +1,24 @@
-﻿namespace Flashcards.m1chael888.Views
+﻿using Spectre.Console;
+using static Flashcards.m1chael888.Views.StudyViewEnums;
+
+namespace Flashcards.m1chael888.Views
 {
-    public class StudyView
+    public interface IStudyView
     {
+        StudyMenuOption CallMenu();
+    }
+    public class StudyView : IStudyView
+    {
+        public StudyMenuOption CallMenu()
+        {
+            var choice = AnsiConsole.Prompt(
+                new SelectionPrompt<StudyMenuOption>()
+                    .Title("[lime]Study Menu::[/]")
+                    .AddChoices(Enum.GetValues<StudyMenuOption>())
+                    .HighlightStyle("lime")
+                    .WrapAround()
+                    );
+            return choice;
+        }
     }
 }

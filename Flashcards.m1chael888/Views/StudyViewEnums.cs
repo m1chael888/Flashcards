@@ -2,5 +2,10 @@
 {
     public class StudyViewEnums
     {
+        public enum StudyMenuOption
+        {
+            Temp,
+            Back
+        }
     }
 }

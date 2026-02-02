@@ -1,6 +1,24 @@
-﻿namespace Flashcards.m1chael888.Views
+﻿using Spectre.Console;
+using static Flashcards.m1chael888.Views.ManageViewEnums;
+
+namespace Flashcards.m1chael888.Views
 {
-    public class ManageView
+    public interface IManageView
     {
+        ManageMenuOption CallMenu();
+    }
+    public class ManageView : IManageView
+    {
+        public ManageMenuOption CallMenu()
+        {
+            var choice = AnsiConsole.Prompt(
+                new SelectionPrompt<ManageMenuOption>()
+                    .Title("[lime]Manage Menu::[/]")
+                    .AddChoices(Enum.GetValues<ManageMenuOption>())
+                    .HighlightStyle("lime")
+                    .WrapAround()
+                    );
+            return choice;
+        }
     }
 }

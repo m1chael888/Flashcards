@@ -23,6 +23,8 @@ namespace Flashcards.m1chael888
             collection.AddScoped<IDbInitializer>(x => new DbInitializer(connectionString));
             collection.AddScoped<IFlashcardsController, FlashcardsController>();
             collection.AddScoped<IMainMenuView, MainMenuView>();
+            collection.AddScoped<IStudyView, StudyView>();
+            collection.AddScoped<IManageView, ManageView>();
 
             var provider = collection.BuildServiceProvider();
 
@@ -30,7 +32,7 @@ namespace Flashcards.m1chael888
             initializer.Initialize();
 
             var controller = provider.GetRequiredService<IFlashcardsController>();
-            controller.HandleMainMenuOption();
+            controller.HandleMainMenu();
         }
     } 
 }

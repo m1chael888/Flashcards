@@ -1,22 +1,28 @@
 ﻿using Flashcards.m1chael888.Views;
 using Spectre.Console;
 using static Flashcards.m1chael888.Views.MainMenuViewEnums;
+using static Flashcards.m1chael888.Views.StudyViewEnums;
+using static Flashcards.m1chael888.Views.ManageViewEnums;
 
 namespace Flashcards.m1chael888.Controllers
 {
     public interface IFlashcardsController
     {
-        void HandleMainMenuOption();
+        void HandleMainMenu();
     }
     public class FlashcardsController : IFlashcardsController
     {
         private IMainMenuView _mainMenuView;
-        public FlashcardsController(IMainMenuView mainMenuView)
+        private IStudyView _studyView;
+        private IManageView _manageView;
+        public FlashcardsController(IMainMenuView mainMenuView, IStudyView studyView, IManageView manageView)
         {
             _mainMenuView = mainMenuView;
+            _studyView = studyView;
+            _manageView = manageView;
         }
 
-        public void HandleMainMenuOption()
+        public void HandleMainMenu()
         {
             Console.Clear();
             var choice = CallMainMenu();
@@ -24,17 +30,61 @@ namespace Flashcards.m1chael888.Controllers
             switch (choice)
             {
                 case MainMenuOption.Study:
-                    Console.WriteLine("under construction");
-                    ReturnToMenu();
+                    HandleStudyMenu();
                     break;
                 case MainMenuOption.Manage:
-                    Console.WriteLine("under construction");
-                    ReturnToMenu();
+                    HandleManageMenu();
                     break;
                 case MainMenuOption.Exit:
                     Environment.Exit(0);
                     break;
             }
+        }
+
+        private void HandleStudyMenu()
+        {
+            var choice = CallStudyMenu();
+
+            switch (choice)
+            {
+                case StudyMenuOption.Temp:
+
+                    HandleStudyMenu();
+                    break;
+                case StudyMenuOption.Back:
+                    HandleMainMenu();
+                    break;
+            }
+        }
+
+        private void HandleManageMenu()
+        {
+            var choice = CallManageMenu();
+
+            switch (choice)
+            {
+                case ManageMenuOption.Temp:
+
+                    HandleManageMenu();
+                    break;
+                case ManageMenuOption.Back:
+                    HandleMainMenu();
+                    break;
+            }
+        }
+
+        ///
+
+        private StudyMenuOption CallStudyMenu()
+        {
+            var choice = _studyView.CallMenu();
+            return choice;
+        }
+
+        private ManageMenuOption CallManageMenu()
+        {
+            var choice = _manageView.CallMenu();
+            return choice;
         }
 
         private MainMenuOption CallMainMenu()
@@ -43,7 +93,7 @@ namespace Flashcards.m1chael888.Controllers
             return choice;
         }
 
-        private void ReturnToMenu()
+        private void ReturnToMainMenu()
         {
             AnsiConsole.Status()
                 .Spinner(Spinner.Known.Point)
@@ -52,7 +102,7 @@ namespace Flashcards.m1chael888.Controllers
                 {
                     Console.ReadKey();
                 });
-            HandleMainMenuOption();
+            HandleMainMenu();
         }
     }
 }
