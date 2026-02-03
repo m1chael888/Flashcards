@@ -51,7 +51,7 @@ namespace Flashcards.m1chael888.Controllers
             string stackName = CallGetStackName("Create stack::");
 
             _manageService.StackCreate(stackName);
-            ReturnToMenuWithMsg("Stack saved successfully");
+            ReturnToManageMenu("Stack saved successfully");
         }
 
         private void CallStacksRead()
@@ -85,15 +85,15 @@ namespace Flashcards.m1chael888.Controllers
             {
                 AnsiConsole.MarkupLine("[lime]This stack is empty!! Create some cards[/]\n");
             }
-            HandleCardsReadMenu();
+            HandleCardsReadMenu(choice.StackId);
         }
 
-        private void HandleCardsReadMenu()
+        private void HandleCardsReadMenu(int stackId)
         {
             switch (_manageView.DisplayCardMenu())
             {
                 case ViewCardsOption.CreateCard:
-
+                    CallCardCreate(stackId);
                     break;
                 case ViewCardsOption.UpdateCard:
 
@@ -107,6 +107,20 @@ namespace Flashcards.m1chael888.Controllers
             }
         }
 
+        void CallCardCreate(int stackId)
+        {
+            var card = new CardModel();
+            var front = _manageView.GetCardFront();
+            var back = _manageView.GetCardBack();
+            card.Front = front;
+            card.Back = back;
+            card.StackId = stackId;
+
+            _manageService.CardCreate(card);
+
+            CallCardsRead();
+        }
+
         private void CallStackUpdate()
         {
             var stacks = GetStackList();
@@ -115,7 +129,7 @@ namespace Flashcards.m1chael888.Controllers
 
             _manageService.StackUpdate(choice);
 
-            ReturnToMenuWithMsg("Stack updated successfully");
+            ReturnToManageMenu("Stack updated successfully");
         }
 
         private void CallStackDelete()
@@ -124,7 +138,7 @@ namespace Flashcards.m1chael888.Controllers
             var choice = _manageView.DisplayStackPrompt(stacks, "Choose a stack of cards to delete::");
             _manageService.StackDelete(choice);
 
-            ReturnToMenuWithMsg("Stack deleted successfully");
+            ReturnToManageMenu("Stack deleted successfully");
         }
 
         private List<StackModel> GetStackList()
@@ -145,7 +159,7 @@ namespace Flashcards.m1chael888.Controllers
             return stackName;
         }
 
-        private void ReturnToMenuWithMsg(string msg)
+        private void ReturnToManageMenu(string msg)
         {
             Console.Clear();    
             AnsiConsole.MarkupLine($"[lime]{msg}[/]");

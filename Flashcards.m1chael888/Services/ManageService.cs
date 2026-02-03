@@ -9,7 +9,7 @@ namespace Flashcards.m1chael888.Services
         List<StackModel> StacksRead();
         void StackUpdate(StackModel stack);
         void StackDelete(StackModel stack);
-        void CardCreate();
+        void CardCreate(CardModel card);
         List<CardDto> CardsRead(StackModel stack);
         void CardUpdate();
         void CardDelete();
@@ -45,9 +45,9 @@ namespace Flashcards.m1chael888.Services
             _stackRepository.Delete(stack.StackId);
         }
 
-        public void CardCreate()
+        public void CardCreate(CardModel card)
         {
-            _cardRepository.Create();
+            _cardRepository.Create(card);
         }
 
         public List<CardDto> CardsRead(StackModel stack)
@@ -61,6 +61,7 @@ namespace Flashcards.m1chael888.Services
                 cardDto.CardId = card.CardId;
                 cardDto.Front = card.Front;
                 cardDto.Back = card.Back;
+                cardDtos.Add(cardDto);
             }
             return cardDtos;
         }

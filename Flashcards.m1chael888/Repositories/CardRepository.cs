@@ -6,7 +6,7 @@ namespace Flashcards.m1chael888.Repositories
 {
     public interface ICardRepository
     {
-        void Create();
+        void Create(CardModel card);
         List<CardModel> Read(int stackId);
         void Update();
         void Delete();
@@ -19,9 +19,19 @@ namespace Flashcards.m1chael888.Repositories
             _connectionString = connectionString;
         }
 
-        public void Create()
+        public void Create(CardModel card)
         {
+            var sql = @"INSERT INTO Cards (Front, Back, StackId) VALUES (@Front, @Back, @StackId)";
 
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Execute(sql, new
+                {
+                    Front = card.Front,
+                    Back = card.Back,
+                    StackId = card.StackId
+                });
+            }
         }
 
         public List<CardModel> Read(int stackId)
