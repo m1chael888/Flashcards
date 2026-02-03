@@ -56,6 +56,7 @@ namespace Flashcards.m1chael888.Controllers
 
         private void CallStacksRead()
         {
+            Console.Clear();
             var stacks = GetStackList();
             var choice = _manageView.DisplayStackList(stacks);
             
@@ -77,6 +78,12 @@ namespace Flashcards.m1chael888.Controllers
             var choice = _manageView.DisplayStackPrompt(stacks, "Choose which stack's cards youd like to view::");
             var cards = _manageService.CardsRead(choice);
 
+            CallShowCards(cards, choice);
+        }
+
+        private void CallShowCards(List<CardDto> cards, StackModel choice)
+        {
+            Console.Clear();
             if (cards.Count() > 0)
             {
                 _manageView.DisplayCardList(cards, choice.Name);
@@ -85,15 +92,15 @@ namespace Flashcards.m1chael888.Controllers
             {
                 AnsiConsole.MarkupLine("[lime]This stack is empty!! Create some cards[/]\n");
             }
-            HandleCardsReadMenu(choice.StackId);
+            HandleCardsReadMenu(choice);
         }
 
-        private void HandleCardsReadMenu(int stackId)
+        private void HandleCardsReadMenu(StackModel choice)
         {
             switch (_manageView.DisplayCardMenu())
             {
                 case ViewCardsOption.CreateCard:
-                    CallCardCreate(stackId);
+                    CallCardCreate(choice);
                     break;
                 case ViewCardsOption.UpdateCard:
 
@@ -102,23 +109,22 @@ namespace Flashcards.m1chael888.Controllers
 
                     break;
                 case ViewCardsOption.Back:
-                    CallCardsRead();
+                    CallStacksRead();
                     break;
             }
         }
 
-        void CallCardCreate(int stackId)
+        void CallCardCreate(StackModel choice)
         {
             var card = new CardModel();
             var front = _manageView.GetCardFront();
             var back = _manageView.GetCardBack();
             card.Front = front;
             card.Back = back;
-            card.StackId = stackId;
+            card.StackId = choice.StackId;
 
             _manageService.CardCreate(card);
-
-            CallCardsRead();
+            CallShowCards(GetCardList(choice), choice);
         }
 
         private void CallStackUpdate()
@@ -147,6 +153,12 @@ namespace Flashcards.m1chael888.Controllers
             return stacks;
         }
          
+        private List<CardDto> GetCardList(StackModel choice)
+        {
+            var cards = _manageService.CardsRead(choice);
+            return cards;
+        }
+
         private string CallGetStackName(string msg)
         {
             var stacks = GetStackList();
