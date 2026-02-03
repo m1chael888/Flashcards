@@ -103,10 +103,10 @@ namespace Flashcards.m1chael888.Controllers
                     CallCardCreate(choice);
                     break;
                 case ViewCardsOption.UpdateCard:
-
+                    //CallCardUpdate(choice);
                     break;
                 case ViewCardsOption.DeleteCard:
-
+                    CallCardDelete(choice);
                     break;
                 case ViewCardsOption.Back:
                     CallStacksRead();
@@ -124,6 +124,29 @@ namespace Flashcards.m1chael888.Controllers
             card.StackId = choice.StackId;
 
             _manageService.CardCreate(card);
+            ReturnToCardList(choice, "Card created successfully =)");
+        }
+
+        void CallCardDelete(StackModel choice)
+        {
+            var cards = GetCardList(choice);
+            var card = _manageView.DisplayCardPrompt(cards, "Choose a card to delete::");
+            _manageService.CardDelete(card.CardId);
+            ReturnToCardList(choice, "Card deleted successfully =)");
+        }
+
+        private void ReturnToCardList(StackModel choice, string msg)
+        {
+            Console.Clear();
+            AnsiConsole.MarkupLine($"[lime]{msg}[/]");
+
+            AnsiConsole.Status()
+                .Spinner(Spinner.Known.Point)
+                .SpinnerStyle("white")
+                .Start("Press any key to return", x =>
+                {
+                    Console.ReadKey();
+                });
             CallShowCards(GetCardList(choice), choice);
         }
 

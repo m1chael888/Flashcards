@@ -15,6 +15,7 @@ namespace Flashcards.m1chael888.Views
         ViewCardsOption DisplayCardMenu();
         string GetCardFront(bool error = false);
         string GetCardBack(bool error = false);
+        CardDto DisplayCardPrompt(List<CardDto> cards, string title);
     }
     public class ManageView : IManageView
     {
@@ -108,6 +109,19 @@ namespace Flashcards.m1chael888.Views
             Console.Clear();
             AnsiConsole.MarkupLine("[lime]Creating a card::[/]\n");
             return AnsiConsole.Ask<string>("[lime]Enter the back of the card (answer)[/]");
+        }
+
+        public CardDto DisplayCardPrompt(List<CardDto> cards, string title)
+        {
+            Console.Clear();
+            return AnsiConsole.Prompt(
+                new SelectionPrompt<CardDto>()
+                .Title($"[lime]{title}[/]")
+                .UseConverter(x => $"{x.CardId}\t{x.Front}\t{x.Back}")
+                .AddChoices(cards)
+                .HighlightStyle("lime")
+                .WrapAround()
+                );
         }
     }
 }

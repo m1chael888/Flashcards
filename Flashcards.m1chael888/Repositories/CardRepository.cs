@@ -9,7 +9,7 @@ namespace Flashcards.m1chael888.Repositories
         void Create(CardModel card);
         List<CardModel> Read(int stackId);
         void Update();
-        void Delete();
+        void Delete(int cardId);
     }
     public class CardRepository : ICardRepository
     {
@@ -54,9 +54,17 @@ namespace Flashcards.m1chael888.Repositories
 
         }
 
-        public void Delete()
+        public void Delete(int cardId)
         {
+            var sql = @"DELETE FROM Cards WHERE CardId = @CardId";
 
+            using (var conncetion = new SqlConnection(_connectionString))
+            {
+                conncetion.Execute(sql, new
+                {
+                    CardId = cardId
+                });
+            }
         }
     }
 }

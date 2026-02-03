@@ -12,7 +12,7 @@ namespace Flashcards.m1chael888.Services
         void CardCreate(CardModel card);
         List<CardDto> CardsRead(StackModel stack);
         void CardUpdate();
-        void CardDelete();
+        void CardDelete(int cardId);
 
     }
     public class ManageService : IManageService
@@ -71,10 +71,9 @@ namespace Flashcards.m1chael888.Services
             _cardRepository.Update();
         }
 
-        public void CardDelete()
+        public void CardDelete(int cardId)
         {
-            _cardRepository.Delete();
+            _cardRepository.Delete(cardId);
         }
-
     }
 }
