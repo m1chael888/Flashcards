@@ -13,8 +13,8 @@ namespace Flashcards.m1chael888.Views
         StackModel DisplayStackPrompt(List<StackModel> stacks, string title);
         void DisplayCardList(List<CardDto> cards, string stackName);
         ViewCardsOption DisplayCardMenu();
-        string GetCardFront(bool error = false);
-        string GetCardBack(bool error = false);
+        string GetCardFront(string operation, bool error = false);
+        string GetCardBack(string operation, bool error = false);
         CardDto DisplayCardPrompt(List<CardDto> cards, string title);
     }
     public class ManageView : IManageView
@@ -97,17 +97,17 @@ namespace Flashcards.m1chael888.Views
             return choice;
         }
 
-        public string GetCardFront(bool error = false)
+        public string GetCardFront(string operation, bool error = false)
         {
             Console.Clear();
-            AnsiConsole.MarkupLine("[lime]Creating a card::[/]\n");
+            AnsiConsole.MarkupLine($"[lime]{operation} a card::[/]\n");
             return AnsiConsole.Ask<string>("[lime]Enter the front of the card (question)[/]");
         }
 
-        public string GetCardBack(bool error = false)
+        public string GetCardBack(string operation, bool error = false)
         {
             Console.Clear();
-            AnsiConsole.MarkupLine("[lime]Creating a card::[/]\n");
+            AnsiConsole.MarkupLine($"[lime]{operation} a card::[/]\n");
             return AnsiConsole.Ask<string>("[lime]Enter the back of the card (answer)[/]");
         }
 

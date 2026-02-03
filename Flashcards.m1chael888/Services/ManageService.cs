@@ -11,7 +11,7 @@ namespace Flashcards.m1chael888.Services
         void StackDelete(StackModel stack);
         void CardCreate(CardModel card);
         List<CardDto> CardsRead(StackModel stack);
-        void CardUpdate();
+        void CardUpdate(CardModel card);
         void CardDelete(int cardId);
 
     }
@@ -66,9 +66,9 @@ namespace Flashcards.m1chael888.Services
             return cardDtos;
         }
 
-        public void CardUpdate()
+        public void CardUpdate(CardModel card)
         {
-            _cardRepository.Update();
+            _cardRepository.Update(card);
         }
 
         public void CardDelete(int cardId)

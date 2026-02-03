@@ -103,7 +103,7 @@ namespace Flashcards.m1chael888.Controllers
                     CallCardCreate(choice);
                     break;
                 case ViewCardsOption.UpdateCard:
-                    //CallCardUpdate(choice);
+                    CallCardUpdate(choice);
                     break;
                 case ViewCardsOption.DeleteCard:
                     CallCardDelete(choice);
@@ -117,14 +117,30 @@ namespace Flashcards.m1chael888.Controllers
         void CallCardCreate(StackModel choice)
         {
             var card = new CardModel();
-            var front = _manageView.GetCardFront();
-            var back = _manageView.GetCardBack();
+            var front = _manageView.GetCardFront("Creating");
+            var back = _manageView.GetCardBack("Creating");
             card.Front = front;
             card.Back = back;
             card.StackId = choice.StackId;
 
             _manageService.CardCreate(card);
             ReturnToCardList(choice, "Card created successfully =)");
+        }
+
+        void CallCardUpdate(StackModel choice)
+        {
+            var cards = GetCardList(choice);
+            var card = _manageView.DisplayCardPrompt(cards, "Choose a card to update::");
+            var front = _manageView.GetCardFront("Updating");
+            var back = _manageView.GetCardBack("Updating");
+            var updatedCard = new CardModel();
+            updatedCard.CardId = card.CardId;
+            updatedCard.Front = front;
+            updatedCard.Back = back;
+            updatedCard.StackId = choice.StackId;
+
+            _manageService.CardUpdate(updatedCard);
+            ReturnToCardList(choice, "Card updated successfully =)");
         }
 
         void CallCardDelete(StackModel choice)
