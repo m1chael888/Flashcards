@@ -10,7 +10,7 @@ namespace Flashcards.m1chael888.Enums
             CreateStack,
             [Description("View stacks")]
             ViewStacks,
-            [Description("Update a stack")]
+            [Description("Update a stack name")]
             UpdateStack,
             [Description("Delete a stack")]
             DeleteStack,
@@ -20,7 +20,7 @@ namespace Flashcards.m1chael888.Enums
 
         public enum ViewStacksOption
         {
-            [Description("View cards in a stack")]
+            [Description("View/manage cards in a stack")]
             ViewCards,
             [Description("Back")]
             Back
