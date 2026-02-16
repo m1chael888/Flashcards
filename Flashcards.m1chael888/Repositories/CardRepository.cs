@@ -53,9 +53,9 @@ namespace Flashcards.m1chael888.Repositories
         {
             var sql = @"UPDATE Cards SET Front = @Front, Back = @Back WHERE CardId = @CardId";
 
-            using (var conncetion = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
-                conncetion.Execute(sql, new
+                connection.Execute(sql, new
                 {
                     Front = card.Front,
                     Back = card.Back,
@@ -68,9 +68,9 @@ namespace Flashcards.m1chael888.Repositories
         {
             var sql = @"DELETE FROM Cards WHERE CardId = @CardId";
 
-            using (var conncetion = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
-                conncetion.Execute(sql, new
+                connection.Execute(sql, new
                 {
                     CardId = cardId
                 });
